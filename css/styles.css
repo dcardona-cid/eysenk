@@ -20,9 +20,11 @@ body{
 header{
   width: 100%!important;
   background: white;
+  /*
   position: fixed;
   top: 0;
   z-index: 100;
+  */
   text-transform: center;
   border-bottom: 3px solid #197db3;
 }
@@ -36,7 +38,7 @@ header .titulo{
 }
 
 #frm{
-  margin-top: 7em;
+ /* margin-top: 7em;*/
 }
 
 .row:nth-child(odd){
@@ -85,6 +87,7 @@ article:hover .pregunta:nth-child(odd){
 .enviar-group{
   display: block;
   margin: 0 auto;
+  margin-top: 2em;
 }
 
 #frm{
