@@ -100,9 +100,12 @@
       e.preventDefault();
       var obj = exportar();
       $(".modal").addClass("show");
-      $("<li><strong>E: </strong> "+obj["E"]+"</li>").appendTo(".resultados-list");
-      $("<li><strong>N: </strong> "+obj["N"]+"</li>").appendTo(".resultados-list");
-      $("<li><strong>L: </strong> "+obj["L"]+"</li>").appendTo(".resultados-list");
+      if (obj["L"] >= 9) {
+       $("<li><strong>Prueba anulada, intenta de nuevo respondiendo a conciencia </strong></li>").appendTo(".resultados-list");
+      }else{
+         $("<li><strong>Extraversión: </strong> "+obj["E"]+"</li>").appendTo(".resultados-list");
+        $("<li><strong>Control emotivo: </strong> "+obj["N"]+"</li>").appendTo(".resultados-list");
+      };
 });
 
   $(document).on("click", ".telon", function(){
