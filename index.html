@@ -65,14 +65,14 @@
 
  $(document).ready(function () {
     $.getJSON( "includes/db.json", function( data ) {
-      console.log(data);      
+      //console.log(data);      
       var articulo = "";
      $.each( data, function( key, val ) {
        var elem = $(".contenido");
        var si = "";
        var no = "";
        var keys = val.keys;
-       console.log(keys);
+       //console.log(keys);
        if(keys.si)
         si = keys.valor;
 
@@ -88,26 +88,21 @@
     });
 // Interacción con los radiobutton
     $(document).on("change", ".eleccion", function () {
-      var datos = $(this).data("baremos");
-     // console.log("bla");
-     resultados[$(this).attr("name")] = datos;
+      var dato = $(this).val();
+      if (dato != "") {
+        resultados[$(this).attr("name")] = dato;
+      }else{
+        delete resultados[$(this).attr("name")];
+      };
 });
 // Enviar el formulario
     $(document).on("submit", "#frm", function (e) {
       e.preventDefault();
       var obj = exportar();
       $(".modal").addClass("show");
-      $("<li><strong>Aire Libre:</strong> "+obj.aire+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Artístico:</strong> "+obj.artistico+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Calculo:</strong> "+obj.calculo+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Científico:</strong> "+obj.cientifico+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Literario:</strong> "+obj.literario+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Mecánico:</strong> "+obj.mecanico+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Músical:</strong> "+obj.musical+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Oficina:</strong> "+obj.oficina+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Persuasivo:</strong> "+obj.persuasivo+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Servicio:</strong> "+obj.servicio+"</li>").appendTo(".resultados-list");
-      $("<li><strong>Validación:</strong> "+obj.validacion+"</li>").appendTo(".resultados-list");
+      $("<li><strong>E: </strong> "+obj["E"]+"</li>").appendTo(".resultados-list");
+      $("<li><strong>N: </strong> "+obj["N"]+"</li>").appendTo(".resultados-list");
+      $("<li><strong>L: </strong> "+obj["L"]+"</li>").appendTo(".resultados-list");
 });
 
   $(document).on("click", ".telon", function(){
@@ -122,34 +117,25 @@
   }
 
  function fillAll(){
-    for (var i = 1; i <= 168; i++) {
-      var  int1 = getRandom(1, 3);
-      var int2 = getRandom(1, 3);
-      var elem1 = "pos_"+i+"_"+int1;
-      var elem2 = "neg_"+i+"_"+int2;
-      $("#"+elem1).attr("checked", true);
-      resultados["pos_"+i] = $("#"+elem1).data("baremos");
-      $("#"+elem2).attr("checked", true);
-      resultados["neg_"+i] = $("#"+elem2).data("baremos");
+    for (var i = 1; i <= 57; i++) {
+      var sino = getRandom(1, 2) == 1 ? "si" : "no";
+      var elem = sino+"_"+i
+      $("#"+elem).attr("checked", true);
+      var dato = $("#"+elem).val();
+      if (dato != "") {
+        resultados[$("#"+elem).attr("name")] = dato;
+      }else{
+        delete resultados[$("#"+elem).attr("name")];
+      };
+      //resultados["pos_"+i] = $("#"+elem1).data("baremos");
     }
  }
 
 function exportar(){
-  var cat = {"aire":0, "artistico":0, "calculo":0, "cientifico":0, "literario":0, "mecanico":0, "musical":0, "oficina":0, "persuasivo":0, "servicio":0, "validacion":0};
+  var cat = {"E":0, "N":0, "L":0};
   $.each(resultados, function(k,v ){
-    cat.aire = cat.aire + v.aire;
-    cat.artistico = cat.artistico + v.artistico;
-    cat.calculo = cat.calculo + v.calculo;
-    cat.cientifico = cat.cientifico + v.cientifico;
-    cat.literario = cat.literario + v.literario;
-    cat.mecanico = cat.mecanico + v.mecanico;
-    cat.musical = cat.musical + v.musical;
-    cat.oficina = cat.oficina + v.oficina;
-    cat.persuasivo = cat.persuasivo + v.persuasivo;
-    cat.servicio = cat.servicio + v.servicio;
-    cat.validacion = cat.validacion + v.validacion;
+      cat[v] = cat[v]+1;
   });
-  //console.log(cat);
   return cat;
 }
 
